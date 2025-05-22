@@ -2,90 +2,51 @@
 import React from "react";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 
 export default function CalendarScreen() {
   const [date, setDate] = React.useState<Date | undefined>(new Date());
-  const [events, setEvents] = React.useState([
-    {
-      title: "Team Meeting",
-      time: "10:00 AM - 11:00 AM",
-      type: "work"
-    },
-    {
-      title: "Lunch Break",
-      time: "12:30 PM - 1:30 PM",
-      type: "personal"
-    },
-    {
-      title: "Project Review",
-      time: "3:00 PM - 4:00 PM",
-      type: "work"
-    }
-  ]);
-
-  const aiSuggestions = [
-    {
-      text: "Add 10-min wind-down after meeting",
-      icon: "🧘"
-    },
-    {
-      text: "Insert walk before lunch",
-      icon: "🚶"
-    },
-    {
-      text: "Move project review to tomorrow?",
-      icon: "⏱️"
-    }
-  ];
 
   return (
-    <div className="flex flex-col h-full">
-      {/* AI Suggestions */}
-      <div className="bg-muted p-4">
-        <h2 className="text-sm font-medium mb-2">AI Suggestions</h2>
-        <div className="flex overflow-x-auto space-x-2 pb-2">
-          {aiSuggestions.map((suggestion, idx) => (
-            <Button key={idx} variant="outline" className="flex items-center space-x-2 whitespace-nowrap">
-              <span>{suggestion.icon}</span>
-              <span>{suggestion.text}</span>
-            </Button>
-          ))}
-        </div>
+    <div className="flex flex-col items-center justify-between h-full p-6 bg-[#FAFAFA]">
+      <div className="w-full flex justify-between items-center">
+        <h2 className="text-xl font-medium text-orange-500">Calendar</h2>
+        <div className="h-6 w-6" /> {/* Empty div for balance */}
       </div>
       
-      {/* Calendar View */}
-      <div className="p-4">
-        <div className="flex items-center justify-between mb-4">
-          <h1 className="text-2xl font-semibold">Calendar</h1>
-          <Button variant="ghost" size="icon">
-            <CalendarIcon className="h-5 w-5" />
-          </Button>
+      <div className="flex flex-col items-center justify-center flex-1 w-full">
+        <div className="w-full max-w-md mb-6">
+          <h1 className="text-2xl font-bold mb-4">Your Schedule</h1>
+          <p className="text-neutral-600 mb-2">Plan your day with Rumi's help</p>
+          
+          <div className="rounded-lg overflow-hidden border border-gray-200 mt-4">
+            <Calendar
+              mode="single"
+              selected={date}
+              onSelect={setDate}
+              className="bg-white"
+            />
+          </div>
         </div>
         
-        <div className="rounded-lg border mb-6">
-          <Calendar
-            mode="single"
-            selected={date}
-            onSelect={setDate}
-            className="p-0"
-          />
-        </div>
-        
-        <h2 className="font-medium mb-2">Today's Schedule</h2>
-        <div className="space-y-3">
-          {events.map((event, idx) => (
-            <div key={idx} className="p-3 border rounded-lg flex justify-between items-center">
+        <div className="w-full max-w-md mt-6">
+          <h2 className="text-lg font-medium mb-3">Upcoming Events</h2>
+          <div className="space-y-3">
+            <div className="p-3 bg-white rounded-lg border border-gray-100 flex items-center">
+              <CalendarIcon className="h-5 w-5 mr-3 text-neutral-500" />
               <div>
-                <h3 className="font-medium">{event.title}</h3>
-                <p className="text-sm text-muted-foreground">{event.time}</p>
+                <p className="font-medium">Morning Meditation</p>
+                <p className="text-sm text-neutral-500">8:00 AM - 8:30 AM</p>
               </div>
-              <Badge variant={event.type === 'work' ? 'default' : 'secondary'}>
-                {event.type}
-              </Badge>
             </div>
-          ))}
+            
+            <div className="p-3 bg-white rounded-lg border border-gray-100 flex items-center">
+              <CalendarIcon className="h-5 w-5 mr-3 text-neutral-500" />
+              <div>
+                <p className="font-medium">Team Meeting</p>
+                <p className="text-sm text-neutral-500">10:00 AM - 11:30 AM</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

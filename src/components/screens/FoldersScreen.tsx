@@ -1,95 +1,67 @@
 
-import React, { useState } from "react";
-import { Search, MoreHorizontal } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import React from "react";
+import { Folder, File, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 
 export default function FoldersScreen() {
-  const [searchQuery, setSearchQuery] = useState("");
-  
   const folders = [
-    {
-      name: "Personal Notes",
-      count: 12,
-      lastUpdated: "Today",
-      tags: ["thoughts", "ideas"]
-    },
-    {
-      name: "Work",
-      count: 8,
-      lastUpdated: "Yesterday",
-      tags: ["meetings", "projects"]
-    },
-    {
-      name: "Learning",
-      count: 15,
-      lastUpdated: "2 days ago",
-      tags: ["courses", "study"]
-    },
-    {
-      name: "Wellness",
-      count: 7,
-      lastUpdated: "3 days ago",
-      tags: ["meditation", "exercise"]
-    }
+    { id: 1, name: "Daily Notes", count: 12, lastUpdated: "Today" },
+    { id: 2, name: "Work Ideas", count: 8, lastUpdated: "Yesterday" },
+    { id: 3, name: "Personal Growth", count: 5, lastUpdated: "2 days ago" }
   ];
-  
-  const filteredFolders = folders.filter(folder => 
-    folder.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    folder.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
-  );
-  
+
+  const recentFiles = [
+    { id: 1, name: "Morning reflection", time: "8:30 AM" },
+    { id: 2, name: "Project ideas", time: "Yesterday" },
+  ];
+
   return (
-    <div className="flex flex-col h-full p-4">
-      <h1 className="text-2xl font-semibold mb-4">Folders</h1>
-      
-      <div className="relative mb-6">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-        <Input
-          placeholder="Search folders and tags..."
-          className="pl-10"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
+    <div className="flex flex-col items-center justify-between h-full p-6 bg-[#FAFAFA]">
+      <div className="w-full flex justify-between items-center">
+        <h2 className="text-xl font-medium text-orange-500">Folders</h2>
+        <Button variant="ghost" size="sm">
+          Edit
+        </Button>
       </div>
       
-      <div className="mb-6">
-        <h2 className="text-lg font-medium mb-2">Weekly Summary</h2>
-        <div className="bg-muted rounded-lg p-4">
-          <p className="text-sm">You've added 5 new recordings this week. Most active folder: Personal Notes.</p>
-          <Button variant="link" className="p-0 h-auto text-sm">View detailed summary</Button>
-        </div>
-      </div>
-      
-      <div className="space-y-4 flex-1 overflow-auto">
-        {filteredFolders.map((folder, idx) => (
-          <div key={idx} className="border rounded-lg p-4">
-            <div className="flex justify-between items-center mb-2">
-              <h3 className="font-medium">{folder.name}</h3>
-              <Button variant="ghost" size="icon" className="h-8 w-8">
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </div>
-            
-            <div className="flex justify-between items-center mb-2">
-              <span className="text-sm text-muted-foreground">{folder.count} items</span>
-              <span className="text-sm text-muted-foreground">Updated {folder.lastUpdated}</span>
-            </div>
-            
-            <div className="flex space-x-2 mt-3">
-              {folder.tags.map((tag, i) => (
-                <Badge key={i} variant="outline">{tag}</Badge>
-              ))}
-            </div>
-            
-            <div className="flex space-x-2 mt-4">
-              <Button variant="outline" size="sm">Teach Me</Button>
-              <Button variant="outline" size="sm">Summarize</Button>
-              <Button variant="outline" size="sm">Quiz</Button>
-            </div>
+      <div className="flex flex-col items-center justify-start flex-1 w-full mt-4">
+        <div className="w-full max-w-md mb-6">
+          <h1 className="text-2xl font-bold mb-4">Your Folders</h1>
+          <p className="text-neutral-600 mb-4">Access your saved notes and recordings</p>
+          
+          <div className="space-y-3 mt-6">
+            {folders.map(folder => (
+              <div key={folder.id} className="p-4 bg-white rounded-lg border border-gray-100 flex items-center justify-between">
+                <div className="flex items-center">
+                  <Folder className="h-5 w-5 mr-3 text-neutral-500" />
+                  <div>
+                    <p className="font-medium">{folder.name}</p>
+                    <p className="text-sm text-neutral-500">{folder.count} items</p>
+                  </div>
+                </div>
+                <p className="text-xs text-neutral-400">{folder.lastUpdated}</p>
+              </div>
+            ))}
           </div>
-        ))}
+        </div>
+        
+        <div className="w-full max-w-md mt-2">
+          <h2 className="text-lg font-medium mb-3">Recent Files</h2>
+          <div className="space-y-3">
+            {recentFiles.map(file => (
+              <div key={file.id} className="p-3 bg-white rounded-lg border border-gray-100 flex items-center justify-between">
+                <div className="flex items-center">
+                  <File className="h-4 w-4 mr-3 text-neutral-500" />
+                  <p className="font-medium">{file.name}</p>
+                </div>
+                <div className="flex items-center text-xs text-neutral-400">
+                  <Clock className="h-3 w-3 mr-1" />
+                  {file.time}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

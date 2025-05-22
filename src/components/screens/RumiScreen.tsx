@@ -1,6 +1,6 @@
 
 import React, { useState, useRef } from "react";
-import { Mic, Play, ArrowDown } from "lucide-react";
+import { Mic, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 
@@ -79,23 +79,34 @@ export default function RumiScreen() {
   };
   
   return (
-    <div className="flex flex-col items-center justify-between h-full p-6">
-      <div className="w-full text-center">
-        <h1 className="text-2xl font-semibold mb-2">Ask Rumi Anything</h1>
-        <p className="text-muted-foreground">Hold to speak or type to ask</p>
+    <div className="flex flex-col items-center justify-between h-full p-6 bg-[#FAFAFA]">
+      <div className="w-full flex justify-between items-center">
+        <h2 className="text-xl font-medium text-orange-500">Rumi</h2>
+        <Button variant="ghost" size="icon" className="rounded-full">
+          <span className="text-lg">?</span>
+        </Button>
       </div>
       
-      <div className="flex flex-col items-center justify-center flex-1">
-        {isRecording ? (
+      <div className="flex flex-col items-center justify-center flex-1 space-y-4">
+        <h1 className="text-3xl font-bold text-center">Ask Rumi<br/>Anything</h1>
+        
+        <Button
+          onClick={handleMicClick}
+          className={`h-16 w-16 rounded-full ${isRecording ? 'bg-red-500 hover:bg-red-600' : 'bg-[#F5F5F5] hover:bg-[#EFEFEF] text-black'}`}
+          variant={isRecording ? "default" : "outline"}
+        >
+          <Mic className={`h-6 w-6 ${isRecording ? 'text-white' : 'text-black'}`} />
+        </Button>
+        
+        {isRecording && (
           <div className="w-full max-w-md">
-            <div className="h-16 bg-muted rounded-lg overflow-hidden mb-4">
-              {/* Audio waveform visualization would go here */}
+            <div className="h-12 bg-muted rounded-lg overflow-hidden">
               <div className="h-full w-full flex items-center justify-center">
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-1">
                   {Array.from({ length: 10 }).map((_, i) => (
                     <div 
                       key={i} 
-                      className="h-8 w-1 bg-primary opacity-75 animate-pulse" 
+                      className="h-6 w-1 bg-primary opacity-75 animate-pulse" 
                       style={{ 
                         animationDelay: `${i * 0.1}s`, 
                         height: `${Math.random() * 100}%` 
@@ -106,45 +117,24 @@ export default function RumiScreen() {
               </div>
             </div>
           </div>
-        ) : (
-          <div className="text-center flex flex-col items-center">
-            <Button
-              onClick={handleMicClick}
-              className="h-24 w-24 rounded-full bg-primary hover:bg-primary/90 text-white mb-6"
-            >
-              <Mic className="h-8 w-8" />
-            </Button>
-            <p className="text-sm text-muted-foreground mb-8">Tap to record your thoughts</p>
-          </div>
         )}
         
         {audioURL && !isRecording && (
-          <div className="flex items-center justify-center space-x-4 mt-4">
-            <Button
-              onClick={handlePlayRecording}
-              className="flex items-center space-x-2"
-              variant="outline"
-            >
-              <Play className="h-4 w-4" />
-              <span>Play Recording</span>
-            </Button>
-          </div>
+          <Button
+            onClick={handlePlayRecording}
+            className="flex items-center space-x-2"
+            variant="outline"
+          >
+            <Play className="h-4 w-4" />
+            <span>Play Recording</span>
+          </Button>
         )}
       </div>
       
-      <div className="w-full max-w-md grid grid-cols-2 gap-4">
-        <Button variant="outline" className="text-left px-4 py-3">
-          <span>What should I do right now?</span>
-        </Button>
-        <Button variant="outline" className="text-left px-4 py-3">
-          <span>Summarize my voice note</span>
-        </Button>
-        <Button variant="outline" className="text-left px-4 py-3">
-          <span>Teach me what I saved</span>
-        </Button>
-        <Button variant="outline" className="text-left px-4 py-3">
-          <span>I'm overwhelmed — help me</span>
-        </Button>
+      <div className="flex flex-col w-full space-y-3">
+        <p className="text-center text-neutral-700 py-1">What should I do right now?</p>
+        <p className="text-center text-neutral-700 py-1">Summarize my voice note.</p>
+        <p className="text-center text-neutral-700 py-1">I'm overwhelmend-help me reset.</p>
       </div>
     </div>
   );
